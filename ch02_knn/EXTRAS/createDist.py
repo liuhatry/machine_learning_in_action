@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 Created on Oct 6, 2010
 
@@ -14,11 +15,15 @@ xcord = zeros((n))
 ycord = zeros((n))
 markers =[]
 colors =[]
+
 fw = open('testSet.txt','w')
 for i in range(n):
+    # 长度为2的随机数组
     [r0,r1] = random.standard_normal(2)
-    myClass = random.uniform(0,1)
+    # 0,1之间的随机数
+    myClass = random.uniform(0,1) # random.uniform(0,1) 和 random.random()作用相同
     if (myClass <= 0.16):
+        # 22000,60000之间的随机数
         fFlyer = random.uniform(22000, 60000)
         tats = 3 + 1.6*r1
         markers.append(20)
@@ -55,10 +60,13 @@ fw.close()
 fig = plt.figure()
 ax = fig.add_subplot(111)
 ax.scatter(xcord,ycord, c=colors, s=markers)
+
+# 设置图例
 type1 = ax.scatter([-10], [-10], s=20, c='red')
 type2 = ax.scatter([-10], [-15], s=30, c='green')
 type3 = ax.scatter([-10], [-20], s=50, c='blue')
 ax.legend([type1, type2, type3], ["Class 1", "Class 2", "Class 3"], loc=2)
+
 #ax.axis([-5000,100000,-2,25])
 plt.xlabel('Frequent Flyier Miles Earned Per Year')
 plt.ylabel('Percentage of Body Covered By Tatoos')
