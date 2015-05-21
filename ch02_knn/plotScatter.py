@@ -6,8 +6,7 @@ Created on May 19, 2015
 @author: hatryliu
 '''
 from numpy import *
-import utils
-import matplotlib
+from utlis import *
 import matplotlib.pyplot as plt
 
 # 1）读取数据画图
@@ -15,7 +14,7 @@ plt.figure()
 plt.subplot(2,2,1)
 
 # 加载数据 
-datingDataMat,datingLabels = utils.file2matrix('data/datingTestSet2.txt')
+datingDataMat,datingLabels = file2matrix('data/datingTestSet.txt')
 
 # 散点图,http://matplotlib.org/api/pyplot_api.html?highlight=scatter#matplotlib.pyplot.scatter
 # 颜色和大小一样，默认值

@@ -1,3 +1,7 @@
-The code for the examples in Ch.1 is contained in the python module: kNN.py.
-The examples assume that datingTestSet.txt is in the current working directory.  
-Folders testDigits, and trainingDigits are assumed to be in this folder also.  
+utlis.py： 工具
+kNN.py: KNN分类器，同时包含约会爱好测试、手写字识别测试
+plotScatter.py: 如何画散点图进行数据分析
+
+data/datingTestSet.txt: 约会测试训练、测试数据
+data/trainingDigits: 手写字识别测试训练数据
+data/testgDigits: 手写字识别测试测试数据
