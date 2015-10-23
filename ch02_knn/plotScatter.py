@@ -13,13 +13,14 @@ import matplotlib.pyplot as plt
 plt.figure()
 plt.subplot(2,2,1)
 
-# 加载数据 
+# 加载数据 (约会数据)
 datingDataMat,datingLabels = file2matrix('data/datingTestSet.txt')
 
 # 散点图,http://matplotlib.org/api/pyplot_api.html?highlight=scatter#matplotlib.pyplot.scatter
 # 颜色和大小一样，默认值
 # ax.scatter(datingDataMat[:,1], datingDataMat[:,2])
 # label不同，颜色和大小不一样
+# 约会数据有三个特征，而散点图每次只能分析其中的二个特征
 plt.scatter(datingDataMat[:,1], datingDataMat[:,2], 15.0*array(datingLabels), 15.0*array(datingLabels))
 
 # 设置x,y轴的范围
