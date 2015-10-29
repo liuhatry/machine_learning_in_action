@@ -1,14 +1,45 @@
+# -*- coding: utf-8 -*-
 '''
 Created on Oct 12, 2010
 Decision Tree Source Code for Machine Learning in Action Ch. 3
 @author: Peter Harrington
 '''
-from math import log
+
 import operator
+from math import log
 
+def createDataSet():
+    '''创建鱼鉴定数据集
+    '''
+    dataSet = [[1, 1, 'yes'],
+               [1, 1, 'yes'],
+               [1, 0, 'no'],
+               [0, 1, 'no'],
+               [0, 1, 'no']]
+    labels = ['no surfacing','flippers']
+    #change to discrete values
+    return dataSet, labels
 
+def calcShannonEnt(dataSet):
+    ''' 计算数据集的信息熵
+    '''
+    numEntries = len(dataSet)
+    labelCounts = {}
+    for featVec in dataSet: #the the number of unique elements and their occurance
+        currentLabel = featVec[-1]
+        if currentLabel not in labelCounts.keys(): labelCounts[currentLabel] = 0
+        labelCounts[currentLabel] += 1
+    shannonEnt = 0.0
+    for key in labelCounts:
+        prob = float(labelCounts[key])/numEntries
+        shannonEnt -= prob * log(prob,2) #log base 2
+    return shannonEnt
 
 def splitDataSet(dataSet, axis, value):
+    ''' 划分数据集,返回给定特征值的数据集
+        axis: 给定的特征（在dataSet的索引）
+        value: 特征值
+    '''
     retDataSet = []
     for featVec in dataSet:
         if featVec[axis] == value:
@@ -18,6 +49,8 @@ def splitDataSet(dataSet, axis, value):
     return retDataSet
 
 def chooseBestFeatureToSplit(dataSet):
+    ''' 选择最好的特征
+    '''
     numFeatures = len(dataSet[0]) - 1      #the last column is used for the labels
     baseEntropy = calcShannonEnt(dataSet)
     bestInfoGain = 0.0; bestFeature = -1
@@ -36,6 +69,8 @@ def chooseBestFeatureToSplit(dataSet):
     return bestFeature                      #returns an integer
 
 def majorityCnt(classList):
+    '''类似于投票，选出出现最多的分类名称
+    '''
     classCount={}
     for vote in classList:
         if vote not in classCount.keys(): classCount[vote] = 0
@@ -44,6 +79,8 @@ def majorityCnt(classList):
     return sortedClassCount[0][0]
 
 def createTree(dataSet,labels):
+    '''创建数
+    '''
     classList = [example[-1] for example in dataSet]
     if classList.count(classList[0]) == len(classList): 
         return classList[0]#stop splitting when all of the classes are equal
@@ -58,15 +95,16 @@ def createTree(dataSet,labels):
     for value in uniqueVals:
         subLabels = labels[:]       #copy all of labels, so trees don't mess up existing labels
         myTree[bestFeatLabel][value] = createTree(splitDataSet(dataSet, bestFeat, value),subLabels)
-    return myTree                            
-    
+    return myTree
+
 def classify(inputTree,featLabels,testVec):
+    ''' 评估测试'''
     firstStr = inputTree.keys()[0]
     secondDict = inputTree[firstStr]
     featIndex = featLabels.index(firstStr)
     key = testVec[featIndex]
     valueOfFeat = secondDict[key]
-    if isinstance(valueOfFeat, dict): 
+    if isinstance(valueOfFeat, dict):
         classLabel = classify(valueOfFeat, featLabels, testVec)
     else: classLabel = valueOfFeat
     return classLabel
@@ -76,9 +114,8 @@ def storeTree(inputTree,filename):
     fw = open(filename,'w')
     pickle.dump(inputTree,fw)
     fw.close()
-    
+
 def grabTree(filename):
     import pickle
     fr = open(filename)
     return pickle.load(fr)
-    
