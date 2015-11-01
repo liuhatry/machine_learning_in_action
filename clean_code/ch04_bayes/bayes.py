@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 Created on Oct 19, 2010
 
@@ -6,6 +7,8 @@ Created on Oct 19, 2010
 from numpy import *
 
 def loadDataSet():
+    ''' 创建实验样本
+    '''
     postingList=[['my', 'dog', 'has', 'flea', 'problems', 'help', 'please'],
                  ['maybe', 'not', 'take', 'him', 'to', 'dog', 'park', 'stupid'],
                  ['my', 'dalmation', 'is', 'so', 'cute', 'I', 'love', 'him'],
@@ -14,14 +17,18 @@ def loadDataSet():
                  ['quit', 'buying', 'worthless', 'dog', 'food', 'stupid']]
     classVec = [0,1,0,1,0,1]    #1 is abusive, 0 not
     return postingList,classVec
-                 
+
 def createVocabList(dataSet):
+    '''词表
+    '''
     vocabSet = set([])  #create empty set
     for document in dataSet:
         vocabSet = vocabSet | set(document) #union of the two sets
     return list(vocabSet)
 
 def setOfWords2Vec(vocabList, inputSet):
+    '''词集模型, words to vector
+    '''
     returnVec = [0]*len(vocabList)
     for word in inputSet:
         if word in vocabList:
@@ -51,15 +58,17 @@ def classifyNB(vec2Classify, p0Vec, p1Vec, pClass1):
     p0 = sum(vec2Classify * p0Vec) + log(1.0 - pClass1)
     if p1 > p0:
         return 1
-    else: 
+    else:
         return 0
-    
+
 def bagOfWords2VecMN(vocabList, inputSet):
-    returnVec = [0]*len(vocabList)
-    for word in inputSet:
-        if word in vocabList:
-            returnVec[vocabList.index(word)] += 1
-    return returnVec
+  '''词袋模型
+  '''
+  returnVec = [0]*len(vocabList)
+  for word in inputSet:
+      if word in vocabList:
+          returnVec[vocabList.index(word)] += 1
+  return returnVec
 
 def testingNB():
     listOPosts,listClasses = loadDataSet()
@@ -79,7 +88,7 @@ def textParse(bigString):    #input is big string, #output is word list
     import re
     listOfTokens = re.split(r'\W*', bigString)
     return [tok.lower() for tok in listOfTokens if len(tok) > 2] 
-    
+
 def spamTest():
     docList=[]; classList = []; fullText =[]
     for i in range(1,26):
