@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import bayes
+import feedparser
 
 if __name__ == "__main__":
     # 1、词表
@@ -26,4 +27,10 @@ if __name__ == "__main__":
 
     # 5. 过滤垃圾邮件测试
     bayes.spamTest()
+
+    # 6. 测试
+    ny = feedparser.parse('http://newyork.craigslist.org/stp/index.rss')
+    sf = feedparser.parse('http://sfbay.craigslist.org/stp/index.rss')
+    vocabList, pSF, pNY = bayes.localWords(ny, sf)
+    bayes.getTopWords(ny, sf)
 
